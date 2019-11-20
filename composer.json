@@ -1,0 +1,20 @@
+{
+	"name": "medansoftware/c45-algorithm-php",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Medan Software",
+			"email": "developer@medansoftware.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5",
+		"phpoffice/phpspreadsheet": "^1.9"
+	},
+	"autoload": {
+		 "classmap": [
+		 	"src"
+		 ]
+	}
+}
