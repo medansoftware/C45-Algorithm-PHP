@@ -8,7 +8,7 @@
 The recommended way to install the C45 PHP library is through [Composer](https://getcomposer.org) :
 
 ```bash
-composer require medansoftware/c45-algorithm-php:dev-master
+composer require medansoftware/c45-algorithm-php
 ```
 
 ## Setup
