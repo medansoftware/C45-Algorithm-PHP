@@ -15,55 +15,55 @@ class C45
 	 * 
 	 * @var integer
 	 */
-	protected $split_gain;
+	public $split_gain;
 
 	/**
 	 * @var Algorithm\C45\DataInput
 	 */
-	protected $c45;
+	public $c45;
 
 	/**
 	 * target attribute's values
 	 * 
 	 * @var array
 	 */
-	protected $target_values;
+	public $target_values;
 
 	/**
 	 * target attribute
 	 * 
 	 * @var string
 	 */
-	protected $target_attribute;
+	public $target_attribute;
 
 	/**
 	 * split criterion
 	 * 
 	 * @var integer
 	 */
-	protected $split_criterion;
+	public $split_criterion;
 
 	/**
 	 * total target's count split by target value
 	 * 
 	 * @var array
 	 */
-	protected $targetCount;	
+	public $targetCount;	
 
 	/**
 	 * @var Algorithm\C45\Calculator\GainCalculator
 	 */
-	private $gainCalculator;
+	public $gainCalculator;
 
 	/**
 	 * @var Algorithm\C45\Calculator\SplitInfoCalculator
 	 */
-	private $splitInfoCalculator;
+	public $splitInfoCalculator;
 
 	/**
 	 * @var Algorithm\C45\Calculator\GainRatioCalculator
 	 */
-	private $gainRatioCalculator;
+	public $gainRatioCalculator;
 
 	public function __construct($file = null, $target_attribute = null)
 	{
