@@ -140,6 +140,7 @@ class DataInput implements DataInputInterface
 	public function setData($data = array())
 	{
 		$this->data = $data;
+		$this->populateClasses();
 	}
 
 	/**
