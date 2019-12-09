@@ -270,9 +270,23 @@ class DataInput implements DataInputInterface
 		{
 			if ($this->hasAttribute($key))
 			{
-				if ($data[$key] != $value)
+				if (is_array($data))
 				{
-					$result = $result && false;
+					if ($data[$key] != $value)
+					{
+						$result = $result && false;
+					}
+				}
+				elseif(is_object($data))
+				{
+					if ($data->{$key} != $value)
+					{
+						$result = $result && false;
+					}
+				}
+				else
+				{
+					$result = false;
 				}
 			}
 		}
