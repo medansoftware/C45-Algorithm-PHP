@@ -1,7 +1,6 @@
 # C45 Algorithm - PHP Language
 
-> [**Example File**](example.xlsx)
-
+> [**Use Example File**](example.xlsx)
 
 ## Installation
 
@@ -9,6 +8,12 @@ The recommended way to install the C45 PHP library is through [Composer](https:/
 
 ```bash
 composer require medansoftware/c45-algorithm-php
+```
+
+## Manual Installation
+
+```bash
+composer dump-autoload
 ```
 
 ## Setup
