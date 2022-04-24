@@ -71,6 +71,133 @@ print_r ($c45->buildTree()->toArray()); // print as array
 echo "</pre>";
 ```
 
+## Initialize Data from Array
+
+```php
+$c45 = new Algorithm\C45();
+$input = new Algorithm\C45\DataInput;
+$data = array(
+	array(
+		"OUTLOOK" => "Sunny",
+		"TEMPERATURE" => "Hot",
+		"HUMIDITY" => "High",
+		"WINDY" => "False",
+		"PLAY" => "No"
+	),
+	array(
+		"OUTLOOK" => "Sunny",
+		"TEMPERATURE" => "Hot",
+		"HUMIDITY" => "High",
+		"WINDY" => "True",
+		"PLAY" => "No"
+	),
+	array(
+		"OUTLOOK" => "Cloudy",
+		"TEMPERATURE" => "Hot",
+		"HUMIDITY" => "High",
+		"WINDY" => "False",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Rainy",
+		"TEMPERATURE" => "Mild",
+		"HUMIDITY" => "High",
+		"WINDY" => "False",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Rainy",
+		"TEMPERATURE" => "Cool",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "False",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Rainy",
+		"TEMPERATURE" => "Cool",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "True",
+		"PLAY" => "No"
+	),
+	array(
+		"OUTLOOK" => "Cloudy",
+		"TEMPERATURE" => "Cool",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "True",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Sunny",
+		"TEMPERATURE" => "Mild",
+		"HUMIDITY" => "High",
+		"WINDY" => "False",
+		"PLAY" => "No"
+	),
+	array(
+		"OUTLOOK" => "Sunny",
+		"TEMPERATURE" => "Cool",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "False",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Rainy",
+		"TEMPERATURE" => "Mild",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "False",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Sunny",
+		"TEMPERATURE" => "Mild",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "True",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Cloudy",
+		"TEMPERATURE" => "Mild",
+		"HUMIDITY" => "High",
+		"WINDY" => "True",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Cloudy",
+		"TEMPERATURE" => "Hot",
+		"HUMIDITY" => "Normal",
+		"WINDY" => "False",
+		"PLAY" => "Yes"
+	),
+	array(
+		"OUTLOOK" => "Rainy",
+		"TEMPERATURE" => "Mild",
+		"HUMIDITY" => "High",
+		"WINDY" => "True",
+		"PLAY" => "No"
+	)
+);
+
+// Initialize Data
+$input->setData($data); // Set data from array
+$input->setAttributes(array('OUTLOOK', 'TEMPERATURE', 'HUMIDITY', 'WINDY', 'PLAY')); // Set attributes of data
+
+// Initialize C4.5
+$c45->c45 = $input; // Set input data
+$c45->setTargetAttribute('PLAY'); // Set target attribute
+$initialize = $c45->initialize(); // initialize
+
+// Build Output
+$buildTree = $initialize->buildTree(); // Build tree
+$arrayTree = $buildTree->toArray(); // Set to array
+$stringTree = $buildTree->toString(); // Set to string
+
+echo "<pre>";
+print_r ($arrayTree);
+echo "</pre>";
+
+echo $stringTree;
+```
+
 ```php
 
 $new_data = array(
