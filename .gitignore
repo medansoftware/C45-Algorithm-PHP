@@ -1,2 +1,26 @@
+# Composer
+/vendor/
 composer.lock
-vendor/*
+
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+
+# Generated example/output files
+/tree.dot
+/tree.png
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment / local configuration
+.env
+.env.*
+!.env.example
