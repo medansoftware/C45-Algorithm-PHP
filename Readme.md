@@ -7,9 +7,12 @@
 
 A PHP implementation of the **C4.5 decision tree algorithm**, with support for building a tree from Excel/CSV files or plain PHP arrays, classifying new data, and exporting the resulting tree as a string, JSON, array, or Graphviz DOT diagram.
 
-> ðŸ“„ [Example spreadsheet](examples/example.xlsx)
+> 📄 [Example spreadsheet](examples/example.xlsx)
+
+## Table of Contents
 
 - [C4.5 Algorithm - PHP](#c45-algorithm---php)
+	- [Table of Contents](#table-of-contents)
 	- [Requirements](#requirements)
 	- [Installation](#installation)
 	- [Quick Start](#quick-start)
@@ -30,7 +33,7 @@ A PHP implementation of the **C4.5 decision tree algorithm**, with support for b
 - PHP ^8.1
 - [phpoffice/phpspreadsheet](https://github.com/PHPOffice/PhpSpreadsheet) ^2.0 || ^3.0
 
-> **PHP 5.xâ€“7.x compatibility:** If your project is running PHP 5.x, 6.x, or 7.x, you must use a package version **below `2.0.0`**.
+> **PHP 5.x–7.x compatibility:** If your project is running PHP 5.x, 6.x, or 7.x, you must use a package version **below `2.0.0`**.
 >
 > Version `2.0.0` and later require **PHP ^8.1**. For older PHP versions, install the latest compatible `1.x` release:
 >
@@ -163,7 +166,7 @@ file_put_contents('tree.dot', $tree->toDot());
 dot -Tpng tree.dot -o tree.png
 ```
 
-**Example output**, generated from the Play Tennis dataset in [`examples/example.xlsx`](examples/example.xlsx). The source `.dot` file is available at [`examples/tree.dot`](examples/tree.dot) â€” feel free to open it in [Graphviz Online](https://dreampuf.github.io/GraphvizOnline/) to explore or modify it.
+**Example output**, generated from the Play Tennis dataset in [`examples/example.xlsx`](examples/example.xlsx). The source `.dot` file is available at [`examples/tree.dot`](examples/tree.dot) — feel free to open it in [Graphviz Online](https://dreampuf.github.io/GraphvizOnline/) to explore or modify it.
 
 ![Decision tree generated from the Play Tennis dataset](examples/tree.png)
 ```
@@ -195,4 +198,4 @@ Released under the [MIT License](LICENSE).
 
 [Reference](https://github.com/juliardi/C45)
 
-<p align="center"><b>Made with â¤ï¸ + â˜• ~ Agung Dirgantara</b></p>
+<p align="center"><b>Made with ❤️ + ☕ ~ Agung Dirgantara</b></p>
