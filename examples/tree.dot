@@ -1,0 +1,19 @@
+digraph C45Tree {
+	node [shape=box, fontname="Helvetica"];
+	edge [fontname="Helvetica"];
+	n0 [label="OUTLOOK"];
+	n0 -> n0_0 [label="Sunny"];
+	n0_0 [label="HUMIDITY"];
+	n0_0_0 [label="No", shape=ellipse, style=filled, fillcolor="#d9ead3"];
+	n0_0 -> n0_0_0 [label="High"];
+	n0_0_1 [label="Yes", shape=ellipse, style=filled, fillcolor="#d9ead3"];
+	n0_0 -> n0_0_1 [label="Normal"];
+	n0_1 [label="Yes", shape=ellipse, style=filled, fillcolor="#d9ead3"];
+	n0 -> n0_1 [label="Cloudy"];
+	n0 -> n0_2 [label="Rainy"];
+	n0_2 [label="WINDY"];
+	n0_2_0 [label="Yes", shape=ellipse, style=filled, fillcolor="#d9ead3"];
+	n0_2 -> n0_2_0 [label="FALSE"];
+	n0_2_1 [label="No", shape=ellipse, style=filled, fillcolor="#d9ead3"];
+	n0_2 -> n0_2_1 [label="TRUE"];
+}
