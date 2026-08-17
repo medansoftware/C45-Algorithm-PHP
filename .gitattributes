@@ -1,0 +1,13 @@
+# Development / CI
+/.github/ export-ignore
+/tests/ export-ignore
+/phpunit.xml export-ignore
+/.editorconfig export-ignore
+
+# Example files
+/example.php export-ignore
+/examples/ export-ignore
+
+# Git metadata
+/.gitignore export-ignore
+/.gitattributes export-ignore
