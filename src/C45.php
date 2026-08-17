@@ -290,4 +290,48 @@ class C45
 	{
 		return $this->c45->getClasses([$attribute_name])[$attribute_name];
 	}
+
+	/**
+	 * Evaluate a built tree's accuracy against a set of labeled rows
+	 * (e.g. a held-out test split).
+	 *
+	 * Each row in $test_data must contain the target attribute so its
+	 * actual value can be compared against the tree's prediction.
+	 *
+	 * @param  TreeNode $tree
+	 * @param  array    $test_data  array of rows: [attribute_name => value, ...]
+	 * @return array{accuracy: float, correct: int, total: int, misclassified: array}
+	 */
+	public function evaluate(TreeNode $tree, array $test_data)
+	{
+		$correct = 0;
+		$total = count($test_data);
+		$misclassified = [];
+
+		foreach ($test_data as $index => $row)
+		{
+			$actual = $row[$this->target_attribute] ?? null;
+			$predicted = $tree->classify($row);
+
+			if ($predicted === $actual)
+			{
+				++$correct;
+			}
+			else
+			{
+				$misclassified[] = [
+					'index' => $index,
+					'actual' => $actual,
+					'predicted' => $predicted,
+				];
+			}
+		}
+
+		return [
+			'accuracy' => $total > 0 ? (float) ($correct / $total) : 0.0,
+			'correct' => $correct,
+			'total' => $total,
+			'misclassified' => $misclassified,
+		];
+	}
 }

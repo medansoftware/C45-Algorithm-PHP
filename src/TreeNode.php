@@ -291,6 +291,76 @@ class TreeNode
 	}
 
 	/**
+	 * Export tree to Graphviz DOT format, for visualization
+	 * with tools such as https://dreampuf.github.io/GraphvizOnline/
+	 * or the `dot` CLI (e.g. `dot -Tpng tree.dot -o tree.png`).
+	 *
+	 * @param  string $tabs
+	 * @param  string $node_id   internal, used for recursion
+	 * @param  boolean $is_root  internal, used for recursion
+	 * @return string
+	 */
+	public function toDot($tabs = "\t", $node_id = 'n0', $is_root = true)
+	{
+		$lines = [];
+
+		if ($is_root)
+		{
+			$lines[] = 'digraph C45Tree {';
+			$lines[] = $tabs . 'node [shape=box, fontname="Helvetica"];';
+			$lines[] = $tabs . 'edge [fontname="Helvetica"];';
+		}
+
+		$safe_attribute = $this->escapeDotLabel((string) $this->attribute);
+		$lines[] = $tabs . $node_id . ' [label="' . $safe_attribute . '"];';
+
+		$i = 0;
+
+		foreach ($this->values as $value => $child)
+		{
+			if (is_null($child) || !($child instanceof self))
+			{
+				continue;
+			}
+
+			$child_id = $node_id . '_' . $i;
+			$safe_value = $this->escapeDotLabel((string) $value);
+
+			if ($child->getIsLeaf())
+			{
+				$label = $this->escapeDotLabel((string) $child->getChild('result'));
+				$lines[] = $tabs . $child_id . ' [label="' . $label . '", shape=ellipse, style=filled, fillcolor="#d9ead3"];';
+				$lines[] = $tabs . $node_id . ' -> ' . $child_id . ' [label="' . $safe_value . '"];';
+			}
+			else
+			{
+				$lines[] = $tabs . $node_id . ' -> ' . $child_id . ' [label="' . $safe_value . '"];';
+				$lines[] = $child->toDot($tabs, $child_id, false);
+			}
+
+			++$i;
+		}
+
+		if ($is_root)
+		{
+			$lines[] = '}';
+		}
+
+		return implode("\n", $lines);
+	}
+
+	/**
+	 * Escape a string for safe use inside a DOT label.
+	 *
+	 * @param  string $value
+	 * @return string
+	 */
+	private function escapeDotLabel($value)
+	{
+		return str_replace(['"', "\n"], ['\\"', ' '], $value);
+	}
+
+	/**
 	 * Get classes count as string
 	 * 
 	 * @param  string $attribute_value

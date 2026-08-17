@@ -111,6 +111,36 @@ class DataInput implements DataInputInterface
 	}
 
 	/**
+	 * Load data directly from a CSV file.
+	 *
+	 * Uses PhpSpreadsheet's dedicated CSV reader instead of relying on
+	 * format auto-detection, which can be unreliable for CSV files
+	 * (delimiter guessing, encoding, etc.).
+	 *
+	 * @param  string $path_to_file
+	 * @param  string $delimiter
+	 * @param  string $enclosure
+	 * @param  string $encoding
+	 * @return array
+	 */
+	public function loadCsv($path_to_file, $delimiter = ',', $enclosure = '"', $encoding = 'UTF-8')
+	{
+		$this->file = $path_to_file;
+
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+		$reader->setDelimiter($delimiter);
+		$reader->setEnclosure($enclosure);
+		$reader->setInputEncoding($encoding);
+
+		$spreadsheet = $reader->load($path_to_file);
+
+		$data = $this->parseFile($spreadsheet);
+		$this->populateClasses();
+
+		return $data;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function setAttributes($attributes = array())
