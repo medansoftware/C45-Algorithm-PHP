@@ -1,6 +1,7 @@
 {
 	"name": "medansoftware/c45-algorithm-php",
 	"type": "library",
+	"description": "C4.5 decision tree algorithm implementation in PHP",
 	"license": "MIT",
 	"authors": [
 		{
@@ -9,12 +10,25 @@
 		}
 	],
 	"require": {
-		"php": ">=5.5",
-		"phpoffice/phpspreadsheet": "^1.9"
+		"php": "^8.1",
+		"phpoffice/phpspreadsheet": "^2.0 || ^3.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^10.5"
 	},
 	"autoload": {
-		 "classmap": [
-		 	"src"
-		 ]
-	}
+		"classmap": [
+			"src"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests"
+		]
+	},
+	"scripts": {
+		"test": "phpunit --colors=always"
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true
 }
