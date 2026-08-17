@@ -25,7 +25,6 @@ A PHP implementation of the **C4.5 decision tree algorithm**, with support for b
 		- [As JSON](#as-json)
 		- [As Array](#as-array)
 		- [As Graphviz DOT Diagram](#as-graphviz-dot-diagram)
-	- [Evaluating Accuracy](#evaluating-accuracy)
 	- [Running Tests](#running-tests)
 	- [License](#license)
 
@@ -157,6 +156,11 @@ file_put_contents('tree.dot', $tree->toDot());
 
 ```bash
 dot -Tpng tree.dot -o tree.png
+```
+
+**Example output**, generated from the Play Tennis dataset in [`examples/example.xlsx`](examples/example.xlsx). The source `.dot` file is available at [`examples/tree.dot`](examples/tree.dot) — feel free to open it in [Graphviz Online](https://dreampuf.github.io/GraphvizOnline/) to explore or modify it.
+
+![Decision tree generated from the Play Tennis dataset](examples/tree.png)
 ```
 
 ## Evaluating Accuracy
