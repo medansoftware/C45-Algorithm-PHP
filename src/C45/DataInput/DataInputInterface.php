@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm\C45\DataInput;
 
 interface DataInputInterface
 {
 
-	public function setFile($path_to_file);
+	public function setFile(string $path_to_file);
 
 	/**
 	 * set attributes
 	 * 
 	 * @param array $attributes
 	 */
-	public function setAttributes($attributes = array());
+	public function setAttributes(array $attributes = array());
 
 	/**
 	 * Check attribute name
@@ -20,30 +22,30 @@ interface DataInputInterface
 	 * @param  string $attribute
 	 * @return boolean
 	 */
-	public function hasAttribute($attribute);
+	public function hasAttribute(string $attribute): bool;
 
 	/**
 	 * Get attributes name
 	 * 
 	 * @return array
 	 */
-	public function getAttributes();
+	public function getAttributes(): ?array;
 
 	/**
 	 * Set data
 	 * 
 	 * @param array $data
 	 */
-	public function setData($data = array());
+	public function setData(array $data = array());
 
 	/**
 	 * Get data
 	 * 
 	 * @param  integer $start
-	 * @param  integer $length
+	 * @param  integer|null $length
 	 * @return array
 	 */
-	public function getData($start = 0, $length = null);
+	public function getData(int $start = 0, ?int $length = null): array;
 
 	/**
 	 * Classes list
@@ -51,23 +53,23 @@ interface DataInputInterface
 	 * @param  array  $attributes list of attribute(s)
 	 * @return array
 	 */
-	public function getClasses($attributes = array());
+	public function getClasses(array $attributes = array()): array;
 
 
 	/**
 	 * Get rows that matched the $criteria
 	 * 
 	 * @param  array  $criteria [{attribute} => {value}]
-	 * @param  integer $length   ammount of data
+	 * @param  integer|null $length   ammount of data
 	 * @return array
 	 */
-	public function getByCriteria($criteria = array(), $length = null);
+	public function getByCriteria(array $criteria = array(), ?int $length = null): array;
 
 	/**
 	 * Counts rows that matched the criteria.
 	 * 
-	 * @param  array  $criteria [description]
-	 * @return [type]           [description]
+	 * @param  array  $criteria
+	 * @return int
 	 */
-	public function countByCriteria($criteria = array());
+	public function countByCriteria(array $criteria = array()): int;
 }

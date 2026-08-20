@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm\C45\Calculator;
 
 class GainRatioCalculator extends AbstractCalculator
 {
-	public function calculateGainRatio(array $gain, array $splitInfo)
+	public function calculateGainRatio(array $gain, array $splitInfo): array
 	{
 		$gainRatio = [];
 

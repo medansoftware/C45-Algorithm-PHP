@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm\C45;
 
 class TreeNode
@@ -35,14 +37,14 @@ class TreeNode
 	/**
 	 * @var boolean
 	 */
-	protected $is_leaf;
+	protected $is_leaf = false;
 
 	/**
 	 * Set parent
 	 * 
 	 * @param TreeNode $parent
 	 */
-	public function setParent(TreeNode $parent)
+	public function setParent(TreeNode $parent): void
 	{
 		$this->parent = $parent;
 	}
@@ -52,7 +54,7 @@ class TreeNode
 	 * 
 	 * @return Algorithm\C45\TreeNode|null
 	 */
-	public function getParent()
+	public function getParent(): ?self
 	{
 		return $this->parent;
 	}
@@ -62,7 +64,7 @@ class TreeNode
 	 * 
 	 * @param string $attribute
 	 */
-	public function setAttribute($attribute)
+	public function setAttribute(string $attribute): void
 	{
 		$this->attribute = $attribute;
 	}
@@ -73,7 +75,7 @@ class TreeNode
 	 * @param string $valueName
 	 * @param array  $classesCount
 	 */
-	public function addClassesCount($valueName, $classesCount = array())
+	public function addClassesCount(string $valueName, array $classesCount = array()): void
 	{
 		$this->classes_count[$valueName] = $classesCount;
 	}
@@ -84,7 +86,7 @@ class TreeNode
 	 * @param boolean $is_leaf
 	 * @return Algorithm\C45\TreeNode 
 	 */
-	public function setIsLeaf($is_leaf = false)
+	public function setIsLeaf(bool $is_leaf = false): self
 	{
 		$this->is_leaf = $is_leaf;
 		return $this;
@@ -95,7 +97,7 @@ class TreeNode
 	 * 
 	 * @return boolean
 	 */
-	public function getIsLeaf()
+	public function getIsLeaf(): bool
 	{
 		return $this->is_leaf;
 	}
@@ -136,7 +138,7 @@ class TreeNode
 	 * 
 	 * @return array current of node value
 	 */
-	public function getValues()
+	public function getValues(): array
 	{
 		return array_keys($this->values);
 	}
@@ -146,7 +148,7 @@ class TreeNode
 	 * 
 	 * @return string
 	 */
-	public function getAttributeName()
+	public function getAttributeName(): ?string
 	{
 		return $this->attribute;
 	}
@@ -157,7 +159,7 @@ class TreeNode
 	 * @param  string $value
 	 * @return Algorithm\C45\TreeNode
 	 */
-	public function removeValue($value)
+	public function removeValue($value): self
 	{
 		if ($this->hasValue($value))
 		{
@@ -173,7 +175,7 @@ class TreeNode
 	 * @param  string  $value
 	 * @return boolean
 	 */
-	public function hasValue($value)
+	public function hasValue($value): bool
 	{
 		if (!isset($this->values))
 		{
@@ -184,33 +186,91 @@ class TreeNode
 	}
 
 	/**
-	 * Classify data
+	 * Classify data.
+	 *
+	 * If this node's split attribute is missing from $data (key absent,
+	 * or explicitly null/empty), classification falls back to the branch
+	 * that had the most training instances at this node (the standard
+	 * C4.5 strategy for handling missing values at prediction time),
+	 * rather than silently returning null.
 	 * 
 	 * @param  array  $data
 	 * @return string
 	 */
-	public function classify(array $data)
+	public function classify(array $data): mixed
 	{
-		if (isset($data[$this->attribute]))
+		$attrValue = $data[$this->attribute] ?? null;
+
+		if (is_null($attrValue) || $attrValue === '')
 		{
-			$attrValue = $data[$this->attribute];
-
-			if (!$this->hasValue($attrValue))
-			{
-				return 'unclassified';
-			}
-
-			$child = $this->values[$attrValue];
-
-			if (!$child->getIsLeaf())
-			{
-				return $child->classify($data);
-			}
-			else
-			{
-				return $child->getChild('result');
-			}
+			return $this->classifyWithMissingValue($data);
 		}
+
+		if (!$this->hasValue($attrValue))
+		{
+			return 'unclassified';
+		}
+
+		return $this->classifyBranch($this->values[$attrValue], $data);
+	}
+
+	/**
+	 * Classify $data using the majority branch (the value with the most
+	 * training instances) when the split attribute's value is missing.
+	 *
+	 * @param  array $data
+	 * @return string
+	 */
+	private function classifyWithMissingValue(array $data): mixed
+	{
+		$majorityValue = $this->getMajorityBranchValue();
+
+		if (is_null($majorityValue) || !$this->hasValue($majorityValue))
+		{
+			return 'unclassified';
+		}
+
+		return $this->classifyBranch($this->values[$majorityValue], $data);
+	}
+
+	/**
+	 * @param  TreeNode $child
+	 * @param  array    $data
+	 * @return string
+	 */
+	private function classifyBranch(TreeNode $child, array $data): mixed
+	{
+		if (!$child->getIsLeaf())
+		{
+			return $child->classify($data);
+		}
+
+		return $child->getChild('result');
+	}
+
+	/**
+	 * The attribute value (branch) with the most training instances at
+	 * this node, based on the counts recorded via addClassesCount().
+	 *
+	 * @return string|null
+	 */
+	private function getMajorityBranchValue(): mixed
+	{
+		if (empty($this->classes_count))
+		{
+			return null;
+		}
+
+		$totals = [];
+
+		foreach ($this->classes_count as $value => $counts)
+		{
+			$totals[$value] = array_sum($counts);
+		}
+
+		arsort($totals);
+
+		return array_key_first($totals);
 	}
 
 	/**
@@ -219,7 +279,7 @@ class TreeNode
 	 * 
 	 * @return array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$data = [];
 		$data['attribute'] = $this->attribute;
@@ -243,7 +303,7 @@ class TreeNode
 	 * 
 	 * @return array
 	 */
-	public function toJson()
+	public function toJson(): string
 	{
 		$data = [];
 		$data['attribute'] = $this->attribute;
@@ -267,7 +327,7 @@ class TreeNode
 	 * @param  string $tabs
 	 * @return string
 	 */
-	public function toString($tabs = '')
+	public function toString(string $tabs = ''): string
 	{
 		$result = '';
 
@@ -300,7 +360,7 @@ class TreeNode
 	 * @param  boolean $is_root  internal, used for recursion
 	 * @return string
 	 */
-	public function toDot($tabs = "\t", $node_id = 'n0', $is_root = true)
+	public function toDot(string $tabs = "\t", string $node_id = 'n0', bool $is_root = true): string
 	{
 		$lines = [];
 
@@ -355,7 +415,7 @@ class TreeNode
 	 * @param  string $value
 	 * @return string
 	 */
-	private function escapeDotLabel($value)
+	private function escapeDotLabel(string $value): string
 	{
 		return str_replace(['"', "\n"], ['\\"', ' '], $value);
 	}
@@ -366,7 +426,7 @@ class TreeNode
 	 * @param  string $attribute_value
 	 * @return string
 	 */
-	private function getClassesCountAsString($attribute_value)
+	private function getClassesCountAsString($attribute_value): string
 	{
 		$result = '(';
 		$total = array_sum($this->classes_count[$attribute_value]);
@@ -386,7 +446,7 @@ class TreeNode
 	 * @param  string $attribute_value string
 	 * @return string
 	 */
-	private function getInstanceCountAsString($attribute_value)
+	private function getInstanceCountAsString($attribute_value): string
 	{
 		$result = '(';
 		$total = array_sum($this->classes_count[$attribute_value]);

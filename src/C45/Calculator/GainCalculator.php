@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm\C45\Calculator;
 
 class GainCalculator extends AbstractCalculator
 {
-	public function calculateGainAllAttributes($criteria = [])
+	public function calculateGainAllAttributes(array $criteria = []): array
 	{
 		$attributeNames = $this->getAttributeNames($criteria);
 
@@ -21,7 +23,7 @@ class GainCalculator extends AbstractCalculator
 		return $gain;
 	}
 
-	public function calculateGainOfAttribute($attributeName, $criteria = [])
+	public function calculateGainOfAttribute(string $attributeName, array $criteria = []): float
 	{
 		$gain = 0;
 		$attributeCount = [];
@@ -42,7 +44,7 @@ class GainCalculator extends AbstractCalculator
 		return $gain;
 	}
 
-	private function gain($classifier_values, $values)
+	private function gain(array $classifier_values, array $values): float
 	{
 		$entropy_all = $this->entropy($classifier_values);
 		$total_records = 0;
@@ -54,18 +56,13 @@ class GainCalculator extends AbstractCalculator
 
 		$gain = 0;
 
-		foreach ($values as $sub_values) 
+		if ($total_records > 0)
 		{
-			try 
+			foreach ($values as $sub_values)
 			{
 				$sub_total_values = array_sum($sub_values);
 				$entropy = $this->entropy($sub_values);
 				$gain += ($sub_total_values / $total_records) * $entropy;
-			} 
-			catch (\Exception $e) 
-			{
-				error_log($e->getMessage());
-				error_log($e->getTraceAsString());
 			}
 		}
 
@@ -74,7 +71,7 @@ class GainCalculator extends AbstractCalculator
 		return $gain;
 	}
 
-	private function entropy(array $values)
+	private function entropy(array $values): float
 	{
 		$result = 0;
 		$sum = array_sum($values);

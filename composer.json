@@ -17,14 +17,14 @@
 		"phpunit/phpunit": "^10.5"
 	},
 	"autoload": {
-		"classmap": [
-			"src"
-		]
+		"psr-4": {
+			"Algorithm\\": "src/"
+		}
 	},
 	"autoload-dev": {
-		"classmap": [
-			"tests"
-		]
+		"psr-4": {
+			"Algorithm\\C45\\Tests\\": "tests/"
+		}
 	},
 	"scripts": {
 		"test": "phpunit --colors=always"
