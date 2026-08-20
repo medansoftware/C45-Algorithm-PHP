@@ -39,8 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   archives.
 - Sample Graphviz output (`examples/tree.dot`, `examples/tree.png`) generated
   from the Play Tennis dataset, referenced in the README.
-- `example.php`, a standalone script demonstrating all output formats
-  (string, JSON, array, DOT).
 - `composer test` script for running PHPUnit locally.
 
 ### Changed
