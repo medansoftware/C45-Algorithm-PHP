@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm\C45\Calculator;
 
 use Algorithm\C45\DataInput\DataInputInterface;
@@ -11,13 +13,13 @@ abstract class AbstractCalculator
 	protected $targetValues;
 	protected $targetCount;
 
-	public function __construct(DataInputInterface $data, $targetAttribute)
+	public function __construct(DataInputInterface $data, string $targetAttribute)
 	{
 		$this->data = $data;
 		$this->setTargetAttribute($targetAttribute);
 	}
 
-	public function setTargetAttribute($targetAttributeName)
+	public function setTargetAttribute(string $targetAttributeName): void
 	{
 		$this->targetAttribute = $targetAttributeName;
 		$this->targetValues = $this->getAttributeValues($this->targetAttribute);
@@ -28,12 +30,12 @@ abstract class AbstractCalculator
 		}
 	}
 
-	protected function getAttributeValues($attributeName)
+	protected function getAttributeValues(string $attributeName): array
 	{
 		return $this->data->getClasses([$attributeName])[$attributeName];
 	}
 
-	protected function getAttributeNames($criteria)
+	protected function getAttributeNames(array $criteria): array
 	{
 		$attributeNames = $this->data->getAttributes();
 

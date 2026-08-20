@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm\C45\Calculator;
 
 class SplitInfoCalculator extends AbstractCalculator
 {
-	public function calculateSplitInfoAllAttributes($criteria = [])
+	public function calculateSplitInfoAllAttributes(array $criteria = []): array
 	{
 		$attributeNames = $this->getAttributeNames($criteria);
 
@@ -18,7 +20,7 @@ class SplitInfoCalculator extends AbstractCalculator
 		return $splitInfo;
 	}
 
-	public function calculateSplitInfoOfAttribute($attributeName, $criteria = [])
+	public function calculateSplitInfoOfAttribute(string $attributeName, array $criteria = []): float
 	{
 		$attributeCount = [];
 
@@ -30,11 +32,10 @@ class SplitInfoCalculator extends AbstractCalculator
 			$attributeCount[$value] = $this->data->countByCriteria($criteria);
 		}
 
-		$splitInfo = $this->splitInfo($attributeCount);
 		return $this->splitInfo($attributeCount);
 	}
 
-	private function splitInfo(array $values)
+	private function splitInfo(array $values): float
 	{
 		$result = 0;
 		$sum = array_sum($values);

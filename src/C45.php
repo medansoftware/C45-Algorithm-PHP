@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Algorithm;
 
 use Algorithm\C45\TreeNode;
@@ -65,7 +67,7 @@ class C45
 	 */
 	public $gainRatioCalculator;
 
-	public function __construct($file = null, $target_attribute = null)
+	public function __construct(?string $file = null, ?string $target_attribute = null)
 	{
 		$this->c45 = new \Algorithm\C45\DataInput($file);
 		$this->setTargetAttribute($target_attribute);
@@ -77,7 +79,7 @@ class C45
 	 * @param  string $file
 	 * @return Algorithm\C45
 	 */
-	public function loadFile($file)
+	public function loadFile(string $file): self
 	{
 		$this->c45 = new \Algorithm\C45\DataInput($file);
 		return $this;
@@ -89,7 +91,7 @@ class C45
 	 * @param string $target_attribute
 	 * @return Algorithm\C45
 	 */
-	public function setTargetAttribute($target_attribute)
+	public function setTargetAttribute(?string $target_attribute): self
 	{
 		if (!empty($target_attribute))
 		{
@@ -113,7 +115,7 @@ class C45
 	 * 
 	 * @return object Algorithm\C45
 	 */
-	public function initialize()
+	public function initialize(): self
 	{
 		$this->target_values = $this->getAttributeValues($this->target_attribute);
 
@@ -136,7 +138,7 @@ class C45
 	 * @param  array  $criteria
 	 * @return TreeNode
 	 */
-	public function buildTree($criteria = array())
+	public function buildTree(array $criteria = array()): TreeNode
 	{
 		$tree_node = new TreeNode;
 	
@@ -200,7 +202,7 @@ class C45
 		return $tree_node;
 	}
 
-	public function calculateSplitCriterion($criteria = array())
+	public function calculateSplitCriterion(array $criteria = array()): array
 	{
 		$gain = $this->gainCalculator->calculateGainAllAttributes($criteria);
 
@@ -217,7 +219,7 @@ class C45
 		}
 	}
 
-	public function calculateClassProbability($criteria = array())
+	public function calculateClassProbability(array $criteria = array()): array
 	{
 		$count_target = $this->countTargetByCriteria($criteria);
 		$total = array_sum($count_target);
@@ -231,17 +233,17 @@ class C45
 		return $class_probability;
 	}
 
-	public function classProbability($count_target_class, $total)
+	public function classProbability(int $count_target_class, int $total): float
 	{
 		if ($total == 0)
 		{
-			return 0;
+			return 0.0;
 		}
 
 		return $count_target_class / $total;
 	}
 
-	public function isBelongToOneClass($criteria = array())
+	public function isBelongToOneClass(array $criteria = array()): array
 	{
 		$countAll = $this->c45->countByCriteria($criteria);
 
@@ -262,7 +264,7 @@ class C45
 		return ['return' => false];
 	}
 
-	public function getBiggestArrayAttribute($array = array())
+	public function getBiggestArrayAttribute(array $array = array())
 	{
 		array_multisort($array, SORT_DESC);
 		reset($array);
@@ -271,7 +273,7 @@ class C45
 		return $key;
 	}
 
-	public function countTargetByCriteria($criteria = array())
+	public function countTargetByCriteria(array $criteria = array()): array
 	{
 		$target_count = [];
 
@@ -286,7 +288,7 @@ class C45
 		return $target_count;
 	}
 
-	public function getAttributeValues($attribute_name)
+	public function getAttributeValues(string $attribute_name): array
 	{
 		return $this->c45->getClasses([$attribute_name])[$attribute_name];
 	}
@@ -302,7 +304,7 @@ class C45
 	 * @param  array    $test_data  array of rows: [attribute_name => value, ...]
 	 * @return array{accuracy: float, correct: int, total: int, misclassified: array}
 	 */
-	public function evaluate(TreeNode $tree, array $test_data)
+	public function evaluate(TreeNode $tree, array $test_data): array
 	{
 		$correct = 0;
 		$total = count($test_data);
