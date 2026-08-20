@@ -5,6 +5,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-08-21
+
+### Added
+
+- PSR-4 Composer autoloading for the `Algorithm\` namespace.
+- PHPUnit test suite covering:
+  - C4.5 tree construction.
+  - Classification.
+  - Gain, Split Info, and Gain Ratio calculations.
+  - Data filtering and counting.
+  - Tree serialization.
+  - Accuracy evaluation.
+- GitHub Actions CI workflow for PHP 8.1, 8.2, and 8.3.
+- `phpunit.xml` configuration for the PHPUnit 10.5 test suite.
+- Example Graphviz files:
+  - `examples/tree.dot`
+  - `examples/tree.png`
+
+### Changed
+
+- Reorganized the source tree to follow PSR-4 conventions:
+  - `src/C45.php` remains `Algorithm\C45`.
+  - C4.5 implementation classes now live under `src/C45/`.
+- Reorganized development files into dedicated `tests/` and `examples/` directories.
+- Added strict parameter and return types throughout the implementation.
+- Improved missing/blank spreadsheet cell handling by representing missing cells as `null`.
+- `DataInput` now accepts both array and object rows when rebuilding its internal classes/index.
+- Criteria matching now uses an attribute/value index and set intersections instead of scanning the entire dataset for every query.
+- `TreeNode::classify()` now handles a missing split attribute by selecting the branch with the highest number of training instances.
+- Improved the README with badges, feature documentation, project structure, migration notes, and missing-value behavior.
+- Added `.editorconfig`, `.gitattributes`, and `.gitignore` project configuration.
+
+### Performance
+
+- `DataInput::countByCriteria()` and `DataInput::getByCriteria()` now resolve criteria through a prebuilt index.
+- This reduces repeated full-dataset scans during recursive tree construction and can significantly improve performance on larger datasets.
+
+### Fixed
+
+- `TreeNode::$is_leaf` is now initialized to `false`, avoiding an uninitialized property state.
+- Missing spreadsheet cells no longer become empty-string classes.
+- Object rows are normalized consistently before class/index generation and criteria matching.
+- Classification no longer silently returns `null` when the split attribute is absent from the input; it now attempts the majority branch.
+
+### Compatibility Notes
+
+- The minimum supported PHP version remains `^8.1`.
+- The public namespace remains `Algorithm\C45`; consumers do not need to change their normal class references.
+- Because stricter scalar types were added, applications passing values of incompatible types may now receive `TypeError` exceptions where older versions performed implicit conversions.
+- Composer autoloading has changed from `classmap` to PSR-4. Applications should regenerate Composer's autoloader after upgrading.
+
+### Upgrade from 2.0.0
+
+```bash
+composer update medansoftware/c45-algorithm-php
+composer dump-autoload
+```
+
+Review calls that intentionally pass values with incompatible scalar types, especially methods that now require `string`, `int`, `bool`, or `array` arguments.
+
 ## [2.0.0] - 2026-08-17
 
 ### Breaking Changes
