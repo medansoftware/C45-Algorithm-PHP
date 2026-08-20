@@ -3,6 +3,7 @@
 namespace Algorithm\C45\Tests;
 
 use Algorithm\C45\TreeNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class C45Test extends TestCase
@@ -41,9 +42,7 @@ class C45Test extends TestCase
         $this->assertSame('Yes', $cloudyBranch->getChild('result'));
     }
 
-    /**
-     * @dataProvider classificationProvider
-     */
+    #[DataProvider('classificationProvider')]
     public function testClassifyMatchesExpectedLabel(array $newRow, string $expected): void
     {
         $c45 = $this->makeC45();
